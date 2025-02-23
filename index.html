@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Cabeçalho com o logo -->
+    <header>
+        <img src="image.png" alt="Logo da Página" class="logo">
+    </header>
+
+    <div class="container">
+        <!-- Coluna lateral (20%) -->
+        <div class="sidebar">
+            <h1>Cadastro de Pacientes</h1>
+            <form id="clientForm" action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientName">Nome do Paciente:</label>
+                    <input type="text" id="patientName" name="patientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="observations">Observações:</label>
+                    <textarea id="observations" name="observations" rows="3"></textarea>
+                </div>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+
+        <!-- Coluna principal (80%) -->
+        <div class="main-content">
+            <h2>Pacientes Cadastrados</h2>
+            <!-- Campo de busca -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Buscar por nome, paciente, email ou telefone...">
+                <button id="searchButton"><i class="fas fa-search"></i> Buscar</button>
+            </div>
+            <table id="clientTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Nome do Paciente</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas da tabela serão preenchidas dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Cliente</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editName">Nome:</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editPatientName">Nome do Paciente:</label>
+                    <input type="text" id="editPatientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editPhone">Telefone:</label>
+                    <input type="tel" id="editPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="editObservations">Observações:</label>
+                    <textarea id="editObservations" rows="3"></textarea>
+                </div>
+                <button type="submit">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Remoção -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirmar Remoção</h2>
+            <p>Tem certeza que deseja remover este cliente?</p>
+            <div class="modal-actions">
+                <button id="confirmDelete">Sim, Remover</button>
+                <button id="cancelDelete">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes do Paciente -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Detalhes do Paciente</h2>
+            <div id="detailContent">
+                <p><strong>Nome:</strong> <span id="detailName"></span></p>
+                <p><strong>Nome do Paciente:</strong> <span id="detailPatientName"></span></p>
+                <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+                <p><strong>Telefone:</strong> <span id="detailPhone"></span></p>
+                <p><strong>Observações:</strong> <span id="detailObservations"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
