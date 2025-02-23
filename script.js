@@ -3,7 +3,7 @@ let allClients = []; // Armazena todos os clientes para filtragem
 
 // Função para carregar clientes ao iniciar a página
 function loadClients() {
-    fetch('http://localhost:3000/clientes')
+    fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app')
         .then(response => response.json())
         .then(data => {
             allClients = data; // Armazena todos os clientes
@@ -78,7 +78,7 @@ document.getElementById('clientForm').addEventListener('submit', function (event
     const observations = document.getElementById('observations').value;
 
     if (name && patientName && email && phone) {
-        fetch('http://localhost:3000/cadastrar', {
+        fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/cadastrar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ function openDetailModal(button) {
     document.getElementById('detailPhone').textContent = row.cells[3].textContent;
 
     // Busca as observações do cliente no servidor
-    fetch(`http://localhost:3000/clientes/${currentClientId}`)
+    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/clientes/${currentClientId}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('detailObservations').textContent = data.observacoes || 'Nenhuma observação.';
@@ -135,7 +135,7 @@ function openEditModal(button) {
     document.getElementById('editPhone').value = row.cells[3].textContent;
 
     // Busca as observações do cliente no servidor
-    fetch(`http://localhost:3000/clientes/${currentClientId}`)
+    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/clientes/${currentClientId}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('editObservations').value = data.observacoes || '';
@@ -155,7 +155,7 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
     const phone = document.getElementById('editPhone').value;
     const observations = document.getElementById('editObservations').value;
 
-    fetch(`http://localhost:3000/editar/${currentClientId}`, {
+    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/editar/${currentClientId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ function openDeleteModal(button) {
 
 // Função para remover cliente
 document.getElementById('confirmDelete').addEventListener('click', function () {
-    fetch(`http://localhost:3000/remover/${currentClientId}`, {
+    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/remover/${currentClientId}`, {
         method: 'DELETE',
     })
         .then(response => response.json())
