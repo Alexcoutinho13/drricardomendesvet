@@ -2,6 +2,10 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 
+// Permitir requisições do front-end no Netlify
+app.use(cors({
+    origin: 'https://drricardomendesvet.netlify.app/' // Substitua pela URL do seu front-end no Netlify
+}));
 const app = express();
 const port = process.env.PORT || 3000;
 
