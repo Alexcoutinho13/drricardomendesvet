@@ -78,7 +78,7 @@ document.getElementById('clientForm').addEventListener('submit', function (event
     const observations = document.getElementById('observations').value;
 
     if (name && patientName && email && phone) {
-        fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/cadastrar', {
+        fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
