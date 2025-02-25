@@ -3,13 +3,21 @@ let allClients = []; // Armazena todos os clientes para filtragem
 
 // Função para carregar clientes ao iniciar a página
 function loadClients() {
-    fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app')
-        .then(response => response.json())
+    fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/clientes')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao carregar clientes');
+            }
+            return response.json();
+        })
         .then(data => {
             allClients = data; // Armazena todos os clientes
             renderClients(data); // Renderiza os clientes na tabela
         })
-        .catch(error => console.error('Erro ao carregar clientes:', error));
+        .catch(error => {
+            console.error('Erro ao carregar clientes:', error);
+            alert('Erro ao carregar clientes. Tente novamente mais tarde.');
+        });
 }
 
 // Função para renderizar clientes na tabela
@@ -78,7 +86,7 @@ document.getElementById('clientForm').addEventListener('submit', function (event
     const observations = document.getElementById('observations').value;
 
     if (name && patientName && email && phone) {
-        fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app', {
+        fetch('https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/cadastrar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,7 +122,7 @@ function openDetailModal(button) {
     document.getElementById('detailPhone').textContent = row.cells[3].textContent;
 
     // Busca as observações do cliente no servidor
-    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/clientes/${currentClientId}`)
+    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/${currentClientId}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('detailObservations').textContent = data.observacoes || 'Nenhuma observação.';
@@ -135,7 +143,7 @@ function openEditModal(button) {
     document.getElementById('editPhone').value = row.cells[3].textContent;
 
     // Busca as observações do cliente no servidor
-    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/clientes/${currentClientId}`)
+    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/${currentClientId}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('editObservations').value = data.observacoes || '';
@@ -155,7 +163,7 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
     const phone = document.getElementById('editPhone').value;
     const observations = document.getElementById('editObservations').value;
 
-    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/editar/${currentClientId}`, {
+    fetch(`https://drricardomendesvet-954cqli5l-alexs-projects-f95914bb.vercel.app/${currentClientId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -170,11 +178,11 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
     })
         .then(response => response.json())
         .then(data => {
-            const row = document.querySelector(`tr[data-id="${currentClientId}"]`);
-            row.cells[0].textContent = data.nome;
-            row.cells[1].textContent = data.nomePaciente;
-            row.cells[2].textContent = data.email;
-            row.cells[3].textContent = data.telefone;
+            const index = allClients.findIndex(c => c.id === currentClientId);
+            if (index !== -1) {
+                allClients[index] = data;
+                renderClients(allClients);
+            }
             closeModal('editModal');
         })
         .catch(error => console.error('Erro ao editar cliente:', error));
@@ -193,7 +201,8 @@ document.getElementById('confirmDelete').addEventListener('click', function () {
     })
         .then(response => response.json())
         .then(data => {
-            document.querySelector(`tr[data-id="${currentClientId}"]`).remove();
+            allClients = allClients.filter(c => c.id !== currentClientId);
+            renderClients(allClients);
             closeModal('deleteModal');
         })
         .catch(error => console.error('Erro ao remover cliente:', error));

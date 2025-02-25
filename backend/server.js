@@ -2,12 +2,15 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 
-// Permitir requisições do front-end no Netlify
-app.use(cors({
-    origin: 'https://drricardomendesvet.netlify.app/' // Substitua pela URL do seu front-end no Netlify
-}));
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Permitir requisições do front-end no Netlify
+app.use(cors({
+    origin: 'https://drricardomendesvet.netlify.app', // Substitua pela URL do seu front-end no Netlify
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+}));
 
 // Conectar ao banco de dados SQLite
 const db = new sqlite3.Database('./database.db');
@@ -26,7 +29,6 @@ db.serialize(() => {
     `);
 });
 
-app.use(cors());
 app.use(express.json());
 
 // Rota para listar todos os clientes
@@ -37,6 +39,18 @@ app.get('/clientes', (req, res) => {
             return;
         }
         res.json(rows);
+    });
+});
+
+// Rota para buscar um cliente específico
+app.get('/clientes/:id', (req, res) => {
+    const sql = `SELECT * FROM clientes WHERE id = ?`;
+    db.get(sql, [req.params.id], (err, row) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json(row);
     });
 });
 
